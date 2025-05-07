@@ -27,6 +27,5 @@ pub async fn get_table_schema(ds: DataSource, table_name: String) -> Result<Stri
         .fetch_optional(&pool)
         .await
         .map_err(|e| anyhow::anyhow!("查询数据表结构失败: {}", e))?;
-    info!("schema:{:?}", schema);
     Ok(schema.unwrap_or_else(|| "Table not found".to_string()))
 }

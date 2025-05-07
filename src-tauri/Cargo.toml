@@ -1,6 +1,6 @@
 [package]
 name = "resource2code"
-version = "0.1.0"
+version = "1.0.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -45,4 +45,5 @@ log4rs = { version = "1.3.0", features = [
     "size_trigger",
     "time_trigger",
     "pattern_encoder",
+    "serde",
 ] }

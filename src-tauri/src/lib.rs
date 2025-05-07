@@ -3,7 +3,7 @@ use function::file::{file_existed, save_file};
 use llm::context_builder::CodeGenRequest;
 use serde::Deserialize;
 use serde_json::{json, Value};
-use std::io;
+use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use storage::code_sample::*;
 use storage::datasource::*;
@@ -11,6 +11,7 @@ use storage::init_db;
 use storage::sys_config::*;
 use task::code_gen_task::CodeGenTask;
 use task::{periodic_cleanup_inactive_tasks, TaskLog, TaskResult};
+use tempfile::NamedTempFile;
 pub mod datasource;
 pub mod db;
 pub mod function;
@@ -33,7 +34,7 @@ impl<T> ToTauriResult<T> for Result<T, Error> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub async fn run() {
     init_db().await.unwrap();
-    log4rs::init_file("log4rs.yaml", Default::default()).unwrap();
+    init_log();
     //定时清理过期的用户任务
     periodic_cleanup_inactive_tasks(120);
     tauri::Builder::default()
@@ -66,6 +67,23 @@ pub async fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+fn init_log() {
+    const LOG4RS_CONFIG: &str = include_str!("../log4rs.yaml");
+    // 创建临时文件并写入配置
+    let mut temp_file =
+        NamedTempFile::with_suffix(".yaml").expect("Failed to create temporary log4rs config file");
+    temp_file
+        .write_all(LOG4RS_CONFIG.as_bytes())
+        .expect("Failed to write log4rs config to temporary file");
+    let temp_path = temp_file
+        .path()
+        .to_str()
+        .expect("Temporary file path is not valid UTF-8");
+    // 从临时文件初始化日志
+    log4rs::init_file(temp_path, Default::default())
+        .expect("Failed to initialize log4rs from config file");
 }
 
 #[derive(Debug, Deserialize)]
