@@ -33,6 +33,7 @@ impl<T> ToTauriResult<T> for Result<T, Error> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub async fn run() {
     init_db().await.unwrap();
+    log4rs::init_file("log4rs.yaml", Default::default()).unwrap();
     //定时清理过期的用户任务
     periodic_cleanup_inactive_tasks(120);
     tauri::Builder::default()
