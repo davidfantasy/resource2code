@@ -39,7 +39,6 @@
 
 <script setup lang="ts">
 import {
-    ElementPlus,
     Setting,
 } from '@element-plus/icons-vue'
 import ResourceExplorer from './components/ResourceExplorer.vue'

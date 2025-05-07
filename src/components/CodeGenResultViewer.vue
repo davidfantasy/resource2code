@@ -52,7 +52,7 @@ import { FolderOpened, Document } from '@element-plus/icons-vue'
 import { invoke } from '@tauri-apps/api/core'
 import { open } from '@tauri-apps/plugin-dialog'
 import { CodeFile } from '../services/dto'
-import { exists } from '@tauri-apps/plugin-fs';
+
 
 const visible = ref(false)
 const files = ref<CodeFile[]>([])
