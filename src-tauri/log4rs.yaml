@@ -1,0 +1,31 @@
+refresh_rate: 30 seconds
+
+appenders:
+  stdout:
+    kind: console
+    encoder:
+      pattern: "{d} {l} - {m}{n}"
+  rolling_file:
+    kind: rolling_file
+    path: "logs/app.log"
+    encoder:
+      pattern: "{d(%Y-%m-%dT%H:%M:%S)} {h({l}):<5.5} {M} {f} {L} ---> {m}{n}"
+    policy:
+      trigger:
+        # 按照时间滚动
+        kind: time
+        interval: 1 day # second minute hour day week month year
+        # 按照大小限制
+        # kind: size
+        # limit: 1mb  # b kb mb gb tb
+      roller:
+        kind: fixed_window
+        pattern: "logs/app-{}.log" # 重命名文件,必须包含 {}，用于索引占位 如果文件名后缀以 .gz 结尾并启用 gzip 特性，归档文件会被压缩
+        base: 0
+        count: 10 # 文件总数
+
+root:
+  level: info
+  appenders:
+    - stdout
+    - rolling_file

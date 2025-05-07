@@ -1,0 +1,142 @@
+// 全局变量
+:root {
+  --header-height: 40px;
+  --aside-width: 250px;
+  --border-color: #dcdfe6;
+  --aside-bg-color: #f5f7fa;
+}
+
+.dark {
+  --border-color: #4c4d4f;
+  --aside-bg-color: #1f1f1f;
+}
+  
+  // 全局样式重置
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body, #app {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  // 主容器样式
+  .vscode-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--el-bg-color);
+    color: var(--el-text-color-primary);
+    
+    .main-container {
+      height: 100%;
+    }
+    
+    // 头部样式
+    .app-header {
+      height: var(--header-height) !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--el-bg-color);
+      z-index: 10;
+      
+      .header-left {
+        display: flex;
+        align-items: center;
+        
+        .app-icon {
+          margin-right: 10px;
+          font-size: 20px;
+          color: var(--el-color-primary);
+        }
+        
+        .app-title {
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+      
+      .header-right {
+        .el-button {
+          padding: 5px 8px;
+        }
+      }
+    }
+    
+    // 侧边栏样式
+    .app-aside {
+      height: calc(100vh - var(--header-height)) !important;
+      border-right: 1px solid var(--border-color);
+      background-color: var(--el-bg-color);
+      overflow: hidden;
+      
+      .aside-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        
+        .aside-title {
+          padding: 10px 15px;
+          font-size: 14px;
+          font-weight: 600;
+          border-bottom: 1px solid var(--border-color);
+        }
+      }
+    }
+    
+    // 主内容区样式
+    .app-main {
+      padding: 0 !important;
+      height: calc(100vh - var(--header-height)) !important;
+      background-color: var(--el-bg-color-page);
+      
+      .main-content {
+        height: 100%;
+        padding: 15px;
+        overflow: auto;
+      }
+    }
+  }
+  
+  // 暗黑模式适配
+  .dark {
+    .vscode-container {
+      .app-header, .app-aside {
+        background-color: var(--el-bg-color);
+      }
+      
+      .app-main {
+        background-color: var(--el-bg-color-page);
+      }
+    }
+  }
+
+  .app-aside {
+    position: relative;
+    transition: width 0.2s;
+    
+    .resize-handle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--el-border-color);
+        cursor: col-resize;
+        z-index: 1;
+        
+        &:hover {
+            background: var(--el-color-primary);
+        }
+    }
+}
+
+.app-main {
+    overflow: hidden;
+}
