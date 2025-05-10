@@ -16,7 +16,8 @@ pub struct DataSource {
     pub port: i32,
     pub username: String,
     pub password: String,
-    pub database: Option<String>,
+    pub database: String,
+    pub extra_params: Option<String>,
 }
 
 // 数据源服务
@@ -27,8 +28,8 @@ pub async fn create_ds(ds: DataSource) -> Result<String, DataServiceError> {
     let pool = DB_POOL.get().context("DB not initialized")?;
     let id = sqlx::query_scalar(
         r#"INSERT INTO data_source 
-            (id,name, db_type, host, port, username, password, database)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            (id,name, db_type, host, port, username, password, database, extra_params)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING id"#,
     )
     .bind(Uuid::new_v4().to_string())
@@ -39,6 +40,7 @@ pub async fn create_ds(ds: DataSource) -> Result<String, DataServiceError> {
     .bind(&ds.username)
     .bind(&ds.password)
     .bind(&ds.database)
+    .bind(&ds.extra_params)
     .fetch_one(pool)
     .await?;
     Ok(id)
@@ -78,8 +80,9 @@ pub async fn update_ds(ds: DataSource) -> Result<bool, DataServiceError> {
             port = $4,
             username = $5,
             password = $6,
-            database = $7
-            WHERE id = $8"#,
+            database = $7,
+            extra_params = $8
+            WHERE id = $9"#,
     )
     .bind(&ds.name)
     .bind(&ds.db_type)
@@ -88,6 +91,7 @@ pub async fn update_ds(ds: DataSource) -> Result<bool, DataServiceError> {
     .bind(&ds.username)
     .bind(&ds.password)
     .bind(&ds.database)
+    .bind(&ds.extra_params)
     .bind(ds.id)
     .execute(pool)
     .await?

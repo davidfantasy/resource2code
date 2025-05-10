@@ -188,5 +188,5 @@ async fn is_file_exsited(file_path: &str) -> Result<bool, String> {
 
 #[tauri::command]
 async fn get_tables(ds: DataSource) -> Result<Vec<String>, String> {
-    db::get_tables(ds).await
+    db::get_tables(ds).await.to_tauri_result()
 }
