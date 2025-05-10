@@ -1,4 +1,3 @@
-use db::get_tables;
 use function::file::{file_existed, save_file};
 use llm::context_builder::CodeGenRequest;
 use serde::Deserialize;
@@ -12,7 +11,6 @@ use storage::sys_config::*;
 use task::code_gen_task::CodeGenTask;
 use task::{periodic_cleanup_inactive_tasks, TaskLog, TaskResult};
 use tempfile::NamedTempFile;
-pub mod datasource;
 pub mod db;
 pub mod function;
 pub mod llm;
@@ -186,4 +184,9 @@ async fn save_generated_file(file: CodeFile) -> Result<bool, String> {
 #[tauri::command]
 async fn is_file_exsited(file_path: &str) -> Result<bool, String> {
     Ok(file_existed(file_path))
+}
+
+#[tauri::command]
+async fn get_tables(ds: DataSource) -> Result<Vec<String>, String> {
+    db::get_tables(ds).await
 }

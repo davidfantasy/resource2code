@@ -3,11 +3,12 @@ use std::{fs, path::PathBuf};
 use anyhow::{anyhow, Result};
 use serde::Deserialize;
 
+use walkdir::WalkDir;
+
 use crate::{
-    datasource::get_table_schema,
+    db::get_table_schema,
     storage::{code_sample::get_sample_by_id, datasource::get_ds_by_id},
 };
-use walkdir::WalkDir;
 
 #[derive(Debug, Deserialize)]
 pub struct CodeGenRequest {
