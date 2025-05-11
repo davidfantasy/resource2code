@@ -3,11 +3,12 @@ CREATE TABLE IF NOT EXISTS data_source (
     id TEXT PRIMARY KEY,         
     name TEXT NOT NULL,
     db_type TEXT NOT NULL, 
-    host TEXT NOT NULL,
-    port INTEGER NOT NULL,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL,
-    database TEXT                
+    host TEXT,
+    port INTEGER,
+    username TEXT,
+    password TEXT,
+    database TEXT NOT NULL,    
+    extra_params TEXT           
 );
 
 -- 代码规范表

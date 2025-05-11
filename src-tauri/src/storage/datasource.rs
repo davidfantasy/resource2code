@@ -12,12 +12,32 @@ pub struct DataSource {
     pub name: String,
     #[serde(rename = "dbType")]
     pub db_type: String,
+    #[serde(default = "default_host")]
     pub host: String,
+    #[serde(default = "default_port")]
     pub port: i32,
+    #[serde(default = "default_user")]
     pub username: String,
+    #[serde(default = "default_password")]
     pub password: String,
     pub database: String,
     pub extra_params: Option<String>,
+}
+
+fn default_host() -> String {
+    "".to_string()
+}
+
+fn default_port() -> i32 {
+    0
+}
+
+fn default_user() -> String {
+    "".to_string()
+}
+
+fn default_password() -> String {
+    "".to_string()
 }
 
 // 数据源服务

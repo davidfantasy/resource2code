@@ -4,12 +4,13 @@ import { ElMessage } from "element-plus";
 export interface DataSource {
     id: string;
     name: string;
-    dbType: 'mysql';
+    dbType: string;
     host: string;
     port: number;
     username: string;
     password: string;
     database?: string;
+    extraParams?: string;
 }
 
 export const dataSourceService = {
@@ -18,8 +19,8 @@ export const dataSourceService = {
             const datasourcs = await invoke<DataSource[]>('get_all_ds');
             return datasourcs;
         } catch (e) {
-            ElMessage.error('查询数据源失败:' + e);
-            throw new Error('查询数据源失败');
+            ElMessage.error('查询数据源失败:' + JSON.stringify(e));
+            throw e;
         }
 
     },
@@ -34,8 +35,8 @@ export const dataSourceService = {
             });
             return { ...data, id: newId.toString() };
         } catch (e) {
-            ElMessage.error('创建数据源发生错误:' + e);
-            throw new Error('创建数据源失败');
+            ElMessage.error('创建数据源失败:' + JSON.stringify(e));
+            throw e;
         }
     },
 
@@ -44,8 +45,8 @@ export const dataSourceService = {
             const item = await invoke<DataSource>('get_ds_by_id', { id });
             return item;
         } catch (e) {
-            ElMessage.error('查询数据源发生错误:' + e);
-            return null;
+            ElMessage.error('查询数据源发生错误:' + JSON.stringify(e));
+            throw e;
         }
     },
 
@@ -60,7 +61,7 @@ export const dataSourceService = {
         try {
             return await invoke<boolean>('delete_ds', { id });
         } catch (e) {
-            ElMessage.error('删除数据源发生错误:' + e);
+            ElMessage.error('删除数据源发生错误:' + JSON.stringify(e));
             return false;
         }
     }

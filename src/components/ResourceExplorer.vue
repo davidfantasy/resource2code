@@ -24,7 +24,7 @@
                     <el-button v-if="data.type == 'database-root'" @click.stop="handleDatabaseCreate"
                         class="refresh-btn" :icon="Plus" type="text" title="新增数据源" />
                     <el-button v-if="data.type == 'database'" @click.stop="handleDatabaseRemove(data.id)"
-                        class="refresh-btn" :icon="Minus" type="text" title="删除数据源" />
+                        class="refresh-btn" :icon="Delete" type="text" title="删除数据源" />
                     <el-button v-if="data.type == 'database'" class="refresh-btn"
                         @click.stop="handleDatabaseEdit(data.id)" :icon="Edit" type="text" title="修改" />
                     <!-- 根节点刷新按钮 -->
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 import { invoke } from '@tauri-apps/api/core';
-import { Folder, Document, Search, Refresh, Plus, Minus, Edit, FolderOpened } from '@element-plus/icons-vue'
+import { Folder, Document, Search, Refresh, Plus, Delete, Edit, FolderOpened } from '@element-plus/icons-vue'
 import DataSourceForm from '@/components/DataSourceForm.vue'
 import { dataSourceService, type DataSource } from '../services/DataSourceService'
 import { ElMessage, ElMessageBox } from 'element-plus';
