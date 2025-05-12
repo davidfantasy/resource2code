@@ -57,9 +57,9 @@ pub async fn get_all_samples() -> Result<Vec<CodeSample>, DataServiceError> {
 
 #[tauri::command]
 // 更新 CodeStandard
-pub async fn update_sample(cs: CodeSample) -> Result<bool, DataServiceError> {
+pub async fn update_sample(cs: CodeSample) -> Result<(), DataServiceError> {
     let pool = DB_POOL.get().context("DB not initialized")?;
-    let rows_affected = sqlx::query(
+    sqlx::query(
         r#"UPDATE code_sample SET
             name = $1,
             content = $2
@@ -69,9 +69,8 @@ pub async fn update_sample(cs: CodeSample) -> Result<bool, DataServiceError> {
     .bind(&cs.content)
     .bind(&cs.id)
     .execute(pool)
-    .await?
-    .rows_affected();
-    Ok(rows_affected > 0)
+    .await?;
+    Ok(())
 }
 
 #[tauri::command]

@@ -44,15 +44,15 @@ export const ruleService = {
         }
     },
 
-    async update(data: Rule): Promise<Rule> {
-        const success = await invoke<boolean>('update_sample', {
-            cs: data
-        });
-        if (!success) {
-            ElMessage.error('更新代码规范失败');
-            throw new Error('更新代码规范失败');
+    async update(data: Rule) {
+        try {
+            await invoke<boolean>('update_sample', {
+                cs: data
+            });
+        } catch (e) {
+            ElMessage.error('更新代码规范失败:' + e);
+            throw e;
         }
-        return data;
     },
 
     async delete(id: String): Promise<boolean> {
