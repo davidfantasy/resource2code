@@ -142,7 +142,6 @@ impl CodeGenTask {
             .await?;
         let context = LLM_CONTEXT_BUILDER.build(&self.req).await?;
         self.send_log(sender, "上下文已构建完成").await?;
-        println!("完整的上下文为：{}", context);
         Ok(context)
     }
 

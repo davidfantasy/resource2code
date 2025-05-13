@@ -13,8 +13,8 @@ export const ruleService = {
             const codeStandards = await invoke<Rule[]>('get_all_samples');
             return codeStandards;
         } catch (e) {
-            ElMessage.error('查询代码规范失败:' + e);
-            throw new Error('查询代码规范失败');
+            ElMessage.error('查询规则失败:' + JSON.stringify(e));
+            throw e;
         }
     },
 
@@ -28,9 +28,8 @@ export const ruleService = {
             });
             return { ...data, id: newId };
         } catch (e) {
-            console.log(e);
-            ElMessage.error('创建代码规范发生错误:' + e);
-            throw new Error('创建代码规范失败');
+            ElMessage.error('创建规则发生错误:' + JSON.stringify(e));
+            throw e;
         }
     },
 
@@ -39,7 +38,7 @@ export const ruleService = {
             const item = await invoke<Rule>('get_sample_by_id', { id });
             return item;
         } catch (e) {
-            ElMessage.error('查询代码规范发生错误:' + e);
+            ElMessage.error('查询规则发生错误:' + JSON.stringify(e));
             return null;
         }
     },
@@ -50,7 +49,7 @@ export const ruleService = {
                 cs: data
             });
         } catch (e) {
-            ElMessage.error('更新代码规范失败:' + e);
+            ElMessage.error('更新规则失败:' + JSON.stringify(e));
             throw e;
         }
     },
@@ -59,7 +58,7 @@ export const ruleService = {
         try {
             return await invoke<boolean>('delete_sample', { id });
         } catch (e) {
-            ElMessage.error('删除代码规范发生错误:' + e);
+            ElMessage.error('删除规则发生错误:' + JSON.stringify(e));
             return false;
         }
     }
