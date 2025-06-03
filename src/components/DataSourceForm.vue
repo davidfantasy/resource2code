@@ -10,6 +10,8 @@
                     <el-option label="MySQL" value="mysql" />
                     <el-option label="PostgreSQL" value="postgres" />
                     <el-option label="SQLite" value="sqlite" />
+                    <el-option label="Clickhouse" value="clickhouse" />
+                    <el-option label="SQLServer" value="sqlserver" />
                 </el-select>
             </el-form-item>
 
